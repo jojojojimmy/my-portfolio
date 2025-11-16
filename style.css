@@ -53,3 +53,39 @@
   cursor: pointer;
   font-family: "ibm-regular", sans-serif;
 }
+
+.camera-controller {
+  display: flex;
+  position: fixed;
+  top: 5vh;
+  right: 5vw;
+  z-index: 1;
+  gap: 1vh;
+}
+
+.camera-controller-btn {
+  color: var(--color2);
+  background-color: var(--color1);
+  border: var(--color1);
+  border-style: solid;
+  border-radius: 12px;
+  font-size: 2rem;
+  width: 12vw;
+  opacity: 0.4;
+}
+
+.camera-controller-btn:active {
+  opacity: 1;
+}
+
+.controls-message {
+  position: fixed;
+  color: var(--color1);
+  top: 3vh;
+  left: 5vw;
+  opacity: 0.7; /* ← slightly higher opacity so it’s readable */
+  font-size: 1.2rem;
+  max-width: 40vw;
+  user-select: none;
+  filter: blur(0.3px); /* ← subtle softening */
+}

@@ -20,5 +20,8 @@ export const chosenProjectDataAtom = atom({
     links: [{ id: 0, name: " ", link: " "}],
 });
 
+// the cameraZoomValueAtom is the zoom 
+export const cameraZoomValueAtom = atom({ value: 1 });
+
 // create a store to hold all the atoms 
 export const store = createStore();

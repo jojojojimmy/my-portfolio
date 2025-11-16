@@ -1,8 +1,8 @@
 import makeSection from "./components/section";
-import { COLORS } from "./constants";
+import { COLORS, ZOOM_MAX_BOUND, ZOOM_MIN_BOUND } from "./constants";
 import makePlayer from "./entities/Player";
 import makeKaplayCtx from "./kaplayCtx"
-// import { store } from "./store";
+import { store, cameraZoomValueAtom } from "./store";
 
 export default async function initGame() {
     // any game initialisation code can go here
@@ -54,6 +54,23 @@ export default async function initGame() {
             "walk-right-up": { from: 28, to: 31, loop: true },
         },
         // using shaders for tiled background and other elements can help improve performance
+    });
+
+    // this is for the camera zoom
+    const setInitCamZoomValue = () => {
+        if (k.width() < 1000) {
+            k.camScale(k.vec2(0.5));
+            store.set(cameraZoomValueAtom, 0.5);
+            return;
+        }
+        k.camScale(k.vec2(0.8));
+        store.set(cameraZoomValueAtom, 0.8);
+    };
+    setInitCamZoomValue();
+    
+    k.onUpdate(() => {
+        const cameraZoomValue = store.get(cameraZoomValueAtom);
+        if (cameraZoomValue !== k.camScale().x) k.camScale(k.vec2(cameraZoomValue));
     });
 
     // Define floor dimensions - this will be the playable area
