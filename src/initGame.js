@@ -56,41 +56,25 @@ export default async function initGame() {
         // using shaders for tiled background and other elements can help improve performance
     });
 
-    // // The loadShaderURL function loads a shader from a URL and associates it with a key.
-    // // It has three parameters: the key to reference the shader, an optional vertex shader URL (null in this case), and the fragment shader URL.
-    k.loadShaderURL("gameBackground", null, "./shaders/gameBackground.frag");
-
-    const background = k.add([
-        k.uvquad(k.width(), k.height()),
-        k.shader("gameBackground", () => ({
-            u_time: k.time() / 20,
-            u_color1: k.Color.fromHex(COLORS.color1),
-            u_color2: k.Color.fromHex(COLORS.color2),
-            u_speed: k.vec2(1, -1),
-            u_aspect: k.width() / k.height(),
-            u_size: 10,
-        })),
-        // the pos component sets the position of the game object 
-        k.pos(0),
-        // the fixed component makes sure that this game object stays in a fixed position relative to the screen
-        k.fixed(),
+    // Define floor dimensions - this will be the playable area
+    const FLOOR_WIDTH = 2000;
+    const FLOOR_HEIGHT = 2000;
+    
+    // Add wooden floor background sprite
+    const floor = k.add([
+        k.sprite("floor", { width: FLOOR_WIDTH, height: FLOOR_HEIGHT }),
+        k.pos(k.center()),
+        k.anchor("center"),
+        k.z(-1000),  // ensures it's behind everything
     ]);
 
-    // // --- Add background sprite ---
-    // const background = k.add([
-    //     k.sprite("floor", { width: k.width(), height: k.height() }),
-    //     k.pos(0, 0),
-    //     k.fixed(),   // stays fixed to the screen
-    //     k.z(-1000),  // ensures it's behind everything
-    // ]);
-
-    // this makes sure that when the game window is resized, the background shader's aspect ratio is updated accordingly 
-    // if we don't use this, the background will look stretched or squished when the window size changes
-    k.onResize(() => {
-        background.width = k.width();
-        background.height = k.height();
-        background.uniform.u_aspect = k.width() / k.height();
-    });
+    // Calculate floor boundaries (relative to floor center)
+    const floorBounds = {
+        left: k.center().x - FLOOR_WIDTH / 2,
+        right: k.center().x + FLOOR_WIDTH / 2,
+        top: k.center().y - FLOOR_HEIGHT / 2,
+        bottom: k.center().y + FLOOR_HEIGHT / 2,
+    };
 
     makeSection(
         k, 
@@ -99,5 +83,6 @@ export default async function initGame() {
         (parent) => {} );
 
     // create the player at the center of the screen with a speed of 800 units
-    makePlayer(k, k.vec2(k.center()), 800);
+    // pass floor boundaries to constrain movement
+    makePlayer(k, k.vec2(k.center()), 800, floorBounds);
 }

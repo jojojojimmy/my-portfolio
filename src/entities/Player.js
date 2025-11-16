@@ -1,6 +1,6 @@
 import { store, isSocialModalVisibleAtom, isEmailModalVisibleAtom, isProjectModalVisibleAtom} from "../store";
 
-export default function makePlayer(k, posVec2, speed) {
+export default function makePlayer(k, posVec2, speed, floorBounds = null) {
     const player = k.add([
         // k.sprite is used to add a sprite component to the game object with animation "walk-down-idle" as the default animation
         k.sprite("me", { anim: "walk-down-idle" }),
@@ -146,11 +146,35 @@ export default function makePlayer(k, posVec2, speed) {
         if (player.direction.x !== 0 && player.direction.y !== 0) 
         {
             player.move(player.direction.scale((1/Math.sqrt(2)) * speed))
-            return;
+        } else {
+            // move the player in the direction of the calculated vector scaled by the speed
+            player.move(player.direction.scale(speed));
         }
 
-        // move the player in the direction of the calculated vector scaled by the speed
-        player.move(player.direction.scale(speed));
+        // Constrain player movement within floor boundaries if they exist
+        if (floorBounds) {
+            // Get player sprite dimensions for boundary checking (accounting for scale)
+            const playerWidth = 5 * 3; // area width * scale
+            const playerHeight = 10 * 3; // area height * scale
+            const halfWidth = playerWidth / 2;
+            const halfHeight = playerHeight / 2;
+
+            // Clamp player position to stay within floor boundaries
+            const clampedX = Math.max(
+                floorBounds.left + halfWidth,
+                Math.min(floorBounds.right - halfWidth, player.pos.x)
+            );
+            const clampedY = Math.max(
+                floorBounds.top + halfHeight,
+                Math.min(floorBounds.bottom - halfHeight, player.pos.y)
+            );
+
+            // Update player position if it was clamped
+            if (clampedX !== player.pos.x || clampedY !== player.pos.y) {
+                player.pos.x = clampedX;
+                player.pos.y = clampedY;
+            }
+        }
     })
 
     return player;
