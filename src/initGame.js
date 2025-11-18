@@ -13,11 +13,34 @@ export default async function initGame() {
     k.loadFont("ibm-bold", "./fonts/IBMPlexSans-Bold.ttf");
 
 
-    k.loadSprite("floor", "./sprites/floor.png");
+    k.loadSprite("room", "./sprites/trialRoom.png");
+    k.loadSprite("bookshelf", "./sprites/bookshelf.png");
+    k.loadSprite("bed", "./sprites/bed.png");
+    k.loadSprite("diningTable", "./sprites/DiningTable.png");
+    k.loadSprite("leftChair", "./sprites/leftFacingChair.png");
+    k.loadSprite("rightChair", "./sprites/rightFacingChair.png");
+
+    k.loadSprite("horizontalWall", "./sprites/horizontalWall.png");
+    k.loadSprite("verticalWall", "./sprites/verticalWall.png");
 
     // load background music
     k.loadSound("backgroundMusic", "./audio/backgroundAudio.mp3");
 
+    // Load your grass tile
+    k.loadSprite("grass-tile", "./sprites/grass.png");
+
+    // Create ONE large tiled background instead of many small ones
+    k.add([
+        k.sprite("grass-tile", { 
+            tiled: true,
+            width: 3000,
+            height: 3000
+        }),
+        k.pos(k.center().x - 1500, k.center().y - 1500),  // Offset by half width/height
+        k.anchor("topleft"),  // Change anchor to topleft
+        k.z(-2000),
+    ]);
+    
     // the load sprite has parameters (key, path, options)
     // key - the name by which we will refer to this sprite later
     // path - the path to the image file
@@ -73,33 +96,48 @@ export default async function initGame() {
         if (cameraZoomValue !== k.camScale().x) k.camScale(k.vec2(cameraZoomValue));
     });
 
-    // Define floor dimensions - this will be the playable area
-    const FLOOR_WIDTH = 2000;
-    const FLOOR_HEIGHT = 2000;
-    
-    // Add wooden floor background sprite
-    const floor = k.add([
-        k.sprite("floor", { width: FLOOR_WIDTH, height: FLOOR_HEIGHT }),
+    // Define room dimensions and scale
+    const ROOM_WIDTH = 256;
+    const ROOM_HEIGHT = 256;
+    const ROOM_SCALE = 5; // or 5, whichever looks better
+
+    // Define where the wall ends (as a percentage from the top)
+    // Adjust this value based on where your wall ends
+    const WALL_HEIGHT_PERCENTAGE = 0.25; // 20% of the room is wall
+
+    // Add the room sprite with scale
+    const room = k.add([
+        k.sprite("room"),
         k.pos(k.center()),
         k.anchor("center"),
-        k.z(-1000),  // ensures it's behind everything
+        k.scale(ROOM_SCALE),
+        k.z(-1000),
     ]);
 
-    // Calculate floor boundaries (relative to floor center)
-    const floorBounds = {
-        left: k.center().x - FLOOR_WIDTH / 2,
-        right: k.center().x + FLOOR_WIDTH / 2,
-        top: k.center().y - FLOOR_HEIGHT / 2,
-        bottom: k.center().y + FLOOR_HEIGHT / 2,
+    // Calculate room boundaries
+    const scaledWidth = ROOM_WIDTH * ROOM_SCALE;
+    const scaledHeight = ROOM_HEIGHT * ROOM_SCALE;
+    const wallHeight = scaledHeight * WALL_HEIGHT_PERCENTAGE;
+
+    // Different padding for each side if needed
+    const PADDING_HORIZONTAL = 30; // Left and right
+    const PADDING_VERTICAL = 50;   // Top and bottom
+
+    const roomBounds = {
+        left: k.center().x - scaledWidth / 2 + PADDING_HORIZONTAL,
+        right: k.center().x + scaledWidth / 2 - PADDING_HORIZONTAL,
+        top: k.center().y - scaledHeight / 2 + wallHeight + PADDING_VERTICAL,
+        bottom: k.center().y + scaledHeight / 2 - PADDING_VERTICAL,
     };
 
-    makeSection(
-        k, 
-        k.vec2(k.center().x, k.center().y - 400), 
-        "About", 
-        (parent) => {} );
+
+    // makeSection(
+    //     k, 
+    //     k.vec2(k.center().x, k.center().y - 400), 
+    //     "About", 
+    //     (parent) => {} );
 
     // create the player at the center of the screen with a speed of 800 units
     // pass floor boundaries to constrain movement
-    makePlayer(k, k.vec2(k.center()), 800, floorBounds);
+    makePlayer(k, k.vec2(k.center()), 800, roomBounds);
 }
