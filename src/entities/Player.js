@@ -13,7 +13,7 @@ export default function makePlayer(k, posVec2, speed, floorBounds = null) {
         k.anchor("center"),
         // k.body is used to add a physics body to the game object so it can move and be affected by forces
         k.body(),
-        k.pos(posVec2),
+        k.pos(k.vec2(posVec2.x, posVec2.y + 300)),
         "me",
         {
             direction: k.vec2(0, 0),

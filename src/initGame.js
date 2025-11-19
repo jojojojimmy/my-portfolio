@@ -14,14 +14,8 @@ export default async function initGame() {
 
 
     k.loadSprite("room", "./sprites/trialRoom.png");
-    k.loadSprite("bookshelf", "./sprites/bookshelf.png");
-    k.loadSprite("bed", "./sprites/bed.png");
-    k.loadSprite("diningTable", "./sprites/DiningTable.png");
-    k.loadSprite("leftChair", "./sprites/leftFacingChair.png");
-    k.loadSprite("rightChair", "./sprites/rightFacingChair.png");
-
-    k.loadSprite("horizontalWall", "./sprites/horizontalWall.png");
-    k.loadSprite("verticalWall", "./sprites/verticalWall.png");
+    k.loadSprite("leftWall", "./sprites/leftWall.png");
+    k.loadSprite("rightWall", "./sprites/rightWall.png");
 
     // load background music
     k.loadSound("backgroundMusic", "./audio/backgroundAudio.mp3");
@@ -126,10 +120,39 @@ export default async function initGame() {
     const roomBounds = {
         left: k.center().x - scaledWidth / 2 + PADDING_HORIZONTAL,
         right: k.center().x + scaledWidth / 2 - PADDING_HORIZONTAL,
-        top: k.center().y - scaledHeight / 2 + wallHeight + PADDING_VERTICAL,
+        top: k.center().y - scaledHeight / 2 + wallHeight,
         bottom: k.center().y + scaledHeight / 2 - PADDING_VERTICAL,
     };
 
+
+    // add the leftWall which has dimensions 128x65
+    k.add([
+        k.sprite("leftWall"),
+        k.pos(k.center().x - 620 , k.center().y + 225),
+        k.anchor("botleft"),
+        k.scale(ROOM_SCALE),
+        k.z(0),
+        // add a collider to the wall to prevent the player from walking through it
+        k.area({ shape: new k.Rect(k.vec2(0),128 ,70) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "leftWall",
+    ]);
+
+
+    // add the rightWall with dimensions 96x66
+    k.add([
+        k.sprite("rightWall"),
+        k.pos(k.center().x + 620 , k.center().y + 225),
+        k.anchor("botright"),
+        k.scale(ROOM_SCALE),
+        k.z(0),
+        // add a collider to the wall to prevent the player from walking through it
+        k.area({ shape: new k.Rect(k.vec2(0),96 ,70) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "rightWall",
+    ])
 
     // makeSection(
     //     k, 
