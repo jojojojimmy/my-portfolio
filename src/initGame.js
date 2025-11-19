@@ -12,18 +12,22 @@ export default async function initGame() {
     k.loadFont("ibm-regular", "./fonts/IBMPlexSans-Regular.ttf");
     k.loadFont("ibm-bold", "./fonts/IBMPlexSans-Bold.ttf");
 
+    // Load your grass tile
+    k.loadSprite("grass-tile", "./sprites/grass.png");
 
     k.loadSprite("room", "./sprites/trialRoom.png");
     k.loadSprite("leftWall", "./sprites/leftWall.png");
     k.loadSprite("rightWall", "./sprites/rightWall.png");
     k.loadSprite("plant", "./sprites/plant.png");
     k.loadSprite("painting", "./sprites/painting.png");
+    k.loadSprite("studyTable", "./sprites/studyTable.png");
+    k.loadSprite("studyChair", "./sprites/studyChair.png");
+    k.loadSprite("carpet", "./sprites/carpet.png");
 
     // load background music
     k.loadSound("backgroundMusic", "./audio/backgroundAudio.mp3");
 
-    // Load your grass tile
-    k.loadSprite("grass-tile", "./sprites/grass.png");
+
 
     // Create ONE large tiled background instead of many small ones
     k.add([
@@ -194,6 +198,42 @@ export default async function initGame() {
         "painting"
     ])
 
+    // add the study table decoration of dimensions 32x32
+    k.add([
+        k.sprite("studyTable"),
+        k.pos(k.center().x + 320 , k.center().y + 190),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -10),32 ,32) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "studyTable"
+    ])
+
+    // add the study chair decoration of dimensions 18x29
+    k.add([
+        k.sprite("studyChair"),
+        k.pos(k.center().x + 320 , k.center().y + 250),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),18 ,29) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "studyChair"
+    ])
+
+    // load the carpet sprite of dimensions 52x60
+
+    k.add([
+        k.sprite("carpet"),
+        k.pos(k.center().x - 375 , k.center().y + 400),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        "carpet"
+    ])
 
     // makeSection(
     //     k, 
