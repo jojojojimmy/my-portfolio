@@ -16,6 +16,7 @@ export default async function initGame() {
     k.loadSprite("room", "./sprites/trialRoom.png");
     k.loadSprite("leftWall", "./sprites/leftWall.png");
     k.loadSprite("rightWall", "./sprites/rightWall.png");
+    k.loadSprite("plant", "./sprites/plant.png");
 
     // load background music
     k.loadSound("backgroundMusic", "./audio/backgroundAudio.mp3");
@@ -133,8 +134,12 @@ export default async function initGame() {
         k.scale(ROOM_SCALE),
         k.z(0),
         // add a collider to the wall to prevent the player from walking through it
-        k.area({ shape: new k.Rect(k.vec2(0),128 ,70) }),
+        // .area() is used to add a collider to a game object
+        k.area({ shape: new k.Rect(k.vec2(0, -5),128 ,60) }),
+        // .body() is used to add a physics body to a game object
+        // isStatic: true makes the body immovable
         k.body({ isStatic: true }),
+        // .outline() is used to draw an outline around the collider for debugging purposes
         k.outline(2, COLORS.color2),
         "leftWall",
     ]);
@@ -148,11 +153,38 @@ export default async function initGame() {
         k.scale(ROOM_SCALE),
         k.z(0),
         // add a collider to the wall to prevent the player from walking through it
-        k.area({ shape: new k.Rect(k.vec2(0),96 ,70) }),
+        // the k.vec2(0, -5) is used to offset the collider slightly upwards to better fit the wall sprite
+        // this does it such that only the bottom part of the collider is moved up while the top part remains in the same position
+        k.area({ shape: new k.Rect(k.vec2(0, -5),96 ,60) }),
         k.body({ isStatic: true }),
         k.outline(2, COLORS.color2),
         "rightWall",
     ])
+
+    // add plant decorations of dimensions 21x39
+    k.add([
+        k.sprite("plant"),
+        k.pos(k.center().x - 150 , k.center().y + 70),
+        k.scale(ROOM_SCALE),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0),21 ,39) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "plant1"
+    ]);
+
+    // add another plant decoration whicb will be placed at the top right of the room
+    k.add([
+        k.sprite("plant"),
+        k.pos(k.center().x - 620 , k.center().y - 475),
+        k.scale(ROOM_SCALE),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0),21 ,35) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "plant2"
+    ]);
+
 
     // makeSection(
     //     k, 

@@ -7,7 +7,7 @@ export default function makePlayer(k, posVec2, speed, floorBounds = null) {
         // k.area is used to add a collision area to the game object which means it can interact with other game objects that have collision areas
         k.area({ shape: new k.Rect(k.vec2(0), 5, 10)}),
         // k.scale is used to scale the size of the sprite by a factor of 8 (so it appears larger on the screen)
-        k.scale(3.5),
+        k.scale(4),
         // k.anchor is used to set the anchor point of the sprite to its center (so it rotates and scales around its center)
         // which means the position of the player will be based on its center point
         k.anchor("center"),
