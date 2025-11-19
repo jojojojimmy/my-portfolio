@@ -17,6 +17,7 @@ export default async function initGame() {
     k.loadSprite("leftWall", "./sprites/leftWall.png");
     k.loadSprite("rightWall", "./sprites/rightWall.png");
     k.loadSprite("plant", "./sprites/plant.png");
+    k.loadSprite("painting", "./sprites/painting.png");
 
     // load background music
     k.loadSound("backgroundMusic", "./audio/backgroundAudio.mp3");
@@ -129,13 +130,13 @@ export default async function initGame() {
     // add the leftWall which has dimensions 128x65
     k.add([
         k.sprite("leftWall"),
-        k.pos(k.center().x - 620 , k.center().y + 225),
-        k.anchor("botleft"),
+        k.pos(k.center().x - 300 , k.center().y + 65),
+        k.anchor("center"),
         k.scale(ROOM_SCALE),
         k.z(0),
         // add a collider to the wall to prevent the player from walking through it
         // .area() is used to add a collider to a game object
-        k.area({ shape: new k.Rect(k.vec2(0, -5),128 ,60) }),
+        k.area({ shape: new k.Rect(k.vec2(0, -10),128 ,60) }),
         // .body() is used to add a physics body to a game object
         // isStatic: true makes the body immovable
         k.body({ isStatic: true }),
@@ -148,14 +149,14 @@ export default async function initGame() {
     // add the rightWall with dimensions 96x66
     k.add([
         k.sprite("rightWall"),
-        k.pos(k.center().x + 620 , k.center().y + 225),
-        k.anchor("botright"),
+        k.pos(k.center().x + 380 , k.center().y + 65),
+        k.anchor("center"),
         k.scale(ROOM_SCALE),
         k.z(0),
         // add a collider to the wall to prevent the player from walking through it
         // the k.vec2(0, -5) is used to offset the collider slightly upwards to better fit the wall sprite
         // this does it such that only the bottom part of the collider is moved up while the top part remains in the same position
-        k.area({ shape: new k.Rect(k.vec2(0, -5),96 ,60) }),
+        k.area({ shape: new k.Rect(k.vec2(0, -10),96, 60) }),
         k.body({ isStatic: true }),
         k.outline(2, COLORS.color2),
         "rightWall",
@@ -184,6 +185,14 @@ export default async function initGame() {
         k.outline(2, COLORS.color2),
         "plant2"
     ]);
+
+    k.add([
+        k.sprite("painting"),
+        k.pos(k.center().x + 520 , k.center().y),
+        k.scale(ROOM_SCALE),
+        k.z(0),
+        "painting"
+    ])
 
 
     // makeSection(
