@@ -23,6 +23,18 @@ export default async function initGame() {
     k.loadSprite("studyTable", "./sprites/studyTable.png");
     k.loadSprite("studyChair", "./sprites/studyChair.png");
     k.loadSprite("carpet", "./sprites/carpet.png");
+    k.loadSprite("lamp", "./sprites/lamp.png");
+    k.loadSprite("couch", "./sprites/couch.png");
+    k.loadSprite("television", "./sprites/Television.png");
+    k.loadSprite("kitchenCounter1", "./sprites/kitchenCounter1.png");
+    k.loadSprite("kitchenCounter2", "./sprites/kitchenCounter2.png");
+    k.loadSprite("stove", "./sprites/stove.png");
+    k.loadSprite("bed", "./sprites/bed.png");
+    k.loadSprite("shelf", "./sprites/shelf.png");
+    k.loadSprite("bookshelf", "./sprites/bookshelf.png")
+    k.loadSprite("diningTable", "./sprites/DiningTable.png");
+    k.loadSprite("leftFacingChair", "./sprites/leftFacingChair.png");
+    k.loadSprite("rightFacingChair", "./sprites/rightFacingChair.png");
 
     // load background music
     k.loadSound("backgroundMusic", "./audio/backgroundAudio.mp3");
@@ -122,11 +134,12 @@ export default async function initGame() {
     // Different padding for each side if needed
     const PADDING_HORIZONTAL = 30; // Left and right
     const PADDING_VERTICAL = 50;   // Top and bottom
+    const PADDING_TOP = -40 ; // negative padding to get closer to the wall 
 
     const roomBounds = {
         left: k.center().x - scaledWidth / 2 + PADDING_HORIZONTAL,
         right: k.center().x + scaledWidth / 2 - PADDING_HORIZONTAL,
-        top: k.center().y - scaledHeight / 2 + wallHeight,
+        top: k.center().y - scaledHeight / 2 + wallHeight + PADDING_TOP,
         bottom: k.center().y + scaledHeight / 2 - PADDING_VERTICAL,
     };
 
@@ -172,27 +185,15 @@ export default async function initGame() {
         k.pos(k.center().x - 150 , k.center().y + 70),
         k.scale(ROOM_SCALE),
         k.z(0),
-        k.area({ shape: new k.Rect(k.vec2(0),21 ,39) }),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),21 ,34) }),
         k.body({ isStatic: true }),
         k.outline(2, COLORS.color2),
         "plant1"
     ]);
 
-    // add another plant decoration whicb will be placed at the top right of the room
-    k.add([
-        k.sprite("plant"),
-        k.pos(k.center().x - 620 , k.center().y - 475),
-        k.scale(ROOM_SCALE),
-        k.z(0),
-        k.area({ shape: new k.Rect(k.vec2(0),21 ,35) }),
-        k.body({ isStatic: true }),
-        k.outline(2, COLORS.color2),
-        "plant2"
-    ]);
-
     k.add([
         k.sprite("painting"),
-        k.pos(k.center().x + 520 , k.center().y),
+        k.pos(k.center().x + 460 , k.center().y),
         k.scale(ROOM_SCALE),
         k.z(0),
         "painting"
@@ -228,12 +229,156 @@ export default async function initGame() {
 
     k.add([
         k.sprite("carpet"),
-        k.pos(k.center().x - 375 , k.center().y + 400),
+        k.pos(k.center().x - 375 , k.center().y + 380),
         k.scale(ROOM_SCALE),
         k.anchor("center"),
         k.z(0),
         "carpet"
     ])
+
+    // add the couch sprite of dimensions 60x45
+    k.add([
+        k.sprite("couch"),
+        k.pos(k.center().x - 375, k.center().y + 490),
+        k.scale(ROOM_SCALE - 1),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),60 ,40) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "couch"
+    ])
+
+    // add the lamp sprite of dimensions 11x36
+    k.add([
+        k.sprite("lamp"),
+        k.pos(k.center().x - 560 , k.center().y + 170),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0),11 ,36) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "lamp"
+    ])
+
+    // add the television with dimensions 48x32
+    k.add([
+        k.sprite("television"),
+        k.pos(k.center().x - 370 , k.center().y + 190),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),48 ,27) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "television"
+    ])
+
+    // add kitchenCounter1 with dimensions 64x18
+    k.add([
+        k.sprite("kitchenCounter1"),
+        k.pos(k.center().x + 380 , k.center().y - 305),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),64 ,14) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "kitchenCounter1"
+    ])
+
+    // // add kitchenCounter2 with dimensions 16x31
+    k.add([
+        k.sprite("kitchenCounter2"),
+        k.pos(k.center().x + 580 , k.center().y - 272),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),16 ,26) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "kitchenCounter2"
+    ])
+
+    // add stove with dimensions 32x31
+    k.add([
+        k.sprite("stove"),
+        k.pos(k.center().x + 140 , k.center().y - 340),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),32 ,31) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "stove"
+    ])
+
+    // add bed with dimensions 32x64
+    k.add([
+        k.sprite("bed"),
+        k.pos(k.center().x + 530 , k.center().y + 270),
+        k.scale(ROOM_SCALE-1),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),32 ,60) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "bed"
+    ])
+
+    // add the bookshelf with dimensions 64x47
+    k.add([
+        k.sprite("bookshelf"),
+        k.pos(k.center().x - 160 , k.center().y - 510),
+        k.scale(ROOM_SCALE),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5), 32, 47) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "bookshelf"
+    ])
+
+    // add the dining table with dimensions 39x42
+    k.add([
+        k.sprite("diningTable"),
+        k.pos(k.center().x - 390, k.center().y - 215),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),39 ,30) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "diningTable"
+    ])
+
+    // add the left facing chair with dimensions 11x24
+    k.add([
+        k.sprite("leftFacingChair"),
+        k.pos(k.center().x - 240 , k.center().y - 200),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),11 ,20) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "leftFacingChair"
+    ])
+
+    // add the right facing chair with dimensions 11x24
+    k.add([
+        k.sprite("rightFacingChair"),
+        k.pos(k.center().x - 535 , k.center().y - 200),
+        k.scale(ROOM_SCALE),
+        k.anchor("center"),
+        k.z(0),
+        k.area({ shape: new k.Rect(k.vec2(0, -5),11 ,20) }),
+        k.body({ isStatic: true }),
+        k.outline(2, COLORS.color2),
+        "rightFacingChair"
+    ])
+
+
 
     // makeSection(
     //     k, 
@@ -241,7 +386,7 @@ export default async function initGame() {
     //     "About", 
     //     (parent) => {} );
 
-    // create the player at the center of the screen with a speed of 800 units
+    // create the player at the center of the screen with a speed of 900 units
     // pass floor boundaries to constrain movement
-    makePlayer(k, k.vec2(k.center()), 800, roomBounds);
+    makePlayer(k, k.vec2(k.center()), 900, roomBounds);
 }
