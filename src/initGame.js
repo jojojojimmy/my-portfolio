@@ -45,11 +45,11 @@ export default async function initGame() {
     k.add([
         k.sprite("grass-tile", { 
             tiled: true,
-            width: 3000,
-            height: 3000
+            width: 6000,
+            height: 6000
         }),
-        k.pos(k.center().x - 1500, k.center().y - 1500),  // Offset by half width/height
-        k.anchor("topleft"),  // Change anchor to topleft
+        k.pos(k.center().x - 3000, k.center().y - 3000),  // Offset by half width/height
+        k.anchor("center"),  // Change anchor to topleft
         k.z(-2000),
     ]);
     
@@ -215,11 +215,12 @@ export default async function initGame() {
     // add the study chair decoration of dimensions 18x29
     k.add([
         k.sprite("studyChair"),
-        k.pos(k.center().x + 320 , k.center().y + 250),
+        k.pos(k.center().x + 320 , k.center().y + 280),
         k.scale(ROOM_SCALE),
         k.anchor("center"),
-        k.z(0),
-        k.area({ shape: new k.Rect(k.vec2(0, -5),18 ,29) }),
+        // setting z to 1 to ensure chair appears above the character when he passes through it
+        k.z(1),
+        k.area({ shape: new k.Rect(k.vec2(0, 10),18 ,19) }),
         k.body({ isStatic: true }),
         k.outline(2, COLORS.color2),
         "studyChair"
@@ -339,18 +340,20 @@ export default async function initGame() {
         "bookshelf"
     ])
 
-    // add the dining table with dimensions 39x42
-    k.add([
-        k.sprite("diningTable"),
-        k.pos(k.center().x - 390, k.center().y - 215),
-        k.scale(ROOM_SCALE),
-        k.anchor("center"),
-        k.z(0),
-        k.area({ shape: new k.Rect(k.vec2(0, -5),39 ,30) }),
-        k.body({ isStatic: true }),
-        k.outline(2, COLORS.color2),
-        "diningTable"
-    ])
+    // // add the dining table with dimensions 39x42
+    // k.add([
+    //     k.sprite("diningTable"),
+    //     k.pos(k.center().x - 390, k.center().y - 215),
+    //     k.scale(ROOM_SCALE),
+    //     k.anchor("center"),
+    //     k.z(0),
+    //     k.area({ shape: new k.Rect(k.vec2(0, -5),39 ,30) }),
+    //     k.body({ isStatic: true }),
+    //     k.outline(2, COLORS.color2),
+    //     "diningTable"
+    // ])
+    const diningTableOffset = k.vec2(0, -5);
+    makeSection(k, k.vec2(k.center().x - 390, k.center().y - 215), "projects", "diningTable", 39, 30, diningTableOffset, ROOM_SCALE)
 
     // add the left facing chair with dimensions 11x24
     k.add([
